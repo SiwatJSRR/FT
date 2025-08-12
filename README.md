@@ -1,1 +1,171 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สุขสันต์วันแม่</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: "Sarabun", sans-serif;
+            background: linear-gradient(to bottom, #fff5f7, #ffe6eb);
+            overflow-x: hidden;
+        }
+        .center-screen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 1.5rem;
+            background-color: #e91e63;
+            color: white;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(233,30,99,0.7);
+        }
+        .hidden {
+            display: none;
+        }
+        /* หน้าบอกรักแม่ให้อยู่กลางจอ */
+        #page2 {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 3rem;
+            color: #e91e63;
+        }
+        p {
+            font-size: 1.2rem;
+            color: #333;
+            max-width: 600px;
+            margin: auto;
+            line-height: 1.8;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            display: inline-block;
+            margin-top: 20px;
+        }
+        footer {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #777;
+        }
+        /* รูปตรงกลาง */
+        .center-image {
+            display: block;
+            margin: 20px auto;
+            max-width: 300px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        /* หัวใจลอย */
+        .heart {
+    position: fixed;
+    color: red;
+    font-size: 2rem;
+    animation: floatUp 8s linear forwards; /* จาก 4s เป็น 8s */
+    pointer-events: none;
+}
 
+@keyframes floatUp {
+    0% { transform: translateY(0) scale(1); opacity: 1; }
+    100% { transform: translateY(-120vh) scale(1.5); opacity: 0; }
+}
+
+        /* หัวใจแตก */
+        .burst-heart {
+            position: fixed;
+            color: red;
+            font-size: 1.5rem;
+            pointer-events: none;
+            animation: burst 1s ease-out forwards;
+        }
+        @keyframes burst {
+            0% { transform: scale(0); opacity: 1; }
+            100% { transform: translate(var(--x), var(--y)) scale(1); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- หน้าแรก -->
+    <div id="page1" class="center-screen">
+        <button onclick="burstEffect()">กดตรงนี้</button>
+    </div>
+
+    <!-- หน้าบอกรักแม่ -->
+    <div id="page2" class="hidden">
+        <h1>สุขสันต์วันแม่ ❤️</h1>
+
+        <!-- รูปภาพ -->
+        <img src="https://i.postimg.cc/ZKZtsnqY/IMG-0215.jpg" alt="รูปแม่" class="center-image">
+
+        <div class="card">
+            <p>
+                แม่คือคนที่รักเราที่สุดในโลก<br>
+                ไม่ว่าจะเจอเรื่องดีหรือร้าย แม่ก็อยู่เคียงข้างเสมอ<br>
+                ขอบคุณแม่สำหรับทุกสิ่งทุกอย่าง ❤️
+            </p>
+        </div>
+        <footer>
+            © 2025 ส่งรักจากหัวใจลูก
+        </footer>
+    </div>
+
+    <script>
+        function burstEffect() {
+            const btn = event.target;
+            const rect = btn.getBoundingClientRect();
+            for (let i = 0; i < 15; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('burst-heart');
+                heart.innerHTML = '❤️';
+                heart.style.left = rect.left + rect.width / 2 + 'px';
+                heart.style.top = rect.top + rect.height / 2 + 'px';
+                heart.style.setProperty('--x', `${(Math.random() - 0.5) * 200}px`);
+                heart.style.setProperty('--y', `${(Math.random() - 0.5) * 200}px`);
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 1000);
+            }
+            setTimeout(showPage2, 1100); // รอหัวใจแตกเสร็จก่อนเปลี่ยนหน้า
+        }
+
+        function showPage2() {
+            document.getElementById('page1').classList.add('hidden');
+            document.getElementById('page2').classList.remove('hidden');
+            startHearts();
+        }
+
+        function startHearts() {
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = '❤️';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 8000);
+            }, 500);
+        }
+    </script>
+</body>
+</html>
